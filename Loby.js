@@ -8,15 +8,34 @@ class Loby extends Phaser.Scene {
         this.load.image('potion2', 'assets/potion2.png');
         this.load.image('potion3', 'assets/potion3.png');
         this.load.image('potion4', 'assets/potion4.png');
+        this.load.image('potions', 'assets/potions.png');
         this.load.image('button_spin', 'assets/button_spin.png');
         this.load.image('button_stop', 'assets/button_stop.png');
         this.load.image('slotContainer', 'assets/slotContainer.png');
         this.load.audio('bg_music', ['assets/BG_Music.wav']);
         this.load.audio('spin', ['assets/Spin.wav']);
     }
-
     create() {
+
         var images = [];
+        /*
+        Group 1 line of potions
+        var group = this.add.group({
+            key: 'potions',
+            frame: [ 0 ],
+            frameQuantity: 1
+        });
+    
+        Phaser.Actions.GridAlign(group.getChildren(), {
+            width: 10,
+            height: 10,
+            cellWidth: 32,
+            cellHeight: 32,
+            x: 100,
+            y: 100
+        });
+        */
+
         //Background Music
         this.soundFX = this.sound.add("bg_music", { loop: "true" });
         this.soundFX.play();
@@ -39,9 +58,22 @@ class Loby extends Phaser.Scene {
             }
         }, this);
 
-        this.image = this.add.image(500, 500, 'slotContainer');
-        this.image = this.add.image(500, 800, 'button_spin');
-        
+        var container = this.add.image(0, 0, 'slotContainer');
+        var slots = this.add.image(0, 0, 'potions');
+        var spinBtn = this.add.image(500, 800, 'button_spin');
+
+        Phaser.Display.Align.In.Center(container, this.add.zone(500, 500, 1000, 1000));
+        Phaser.Display.Align.In.Center(slots, container);
+
+        spinBtn.setInteractive();
+
+        spinBtn.on('clicked', this.clickHandler, this);
+
+        this.input.on('gameobjectup', function (pointer, gameObject)
+        {
+            gameObject.emit('clicked', gameObject);
+        }, this);
+        /*
         var frames = ['potion1', 'potion2', 'potion3', 'potion4'];
 
         for (var i = 0; i < frames.length; ++i) 
@@ -49,18 +81,18 @@ class Loby extends Phaser.Scene {
             images[i] = this.add.tileSprite(i * 150, 130, 140, 555, frames[i]);
             images[i].originX = 0;
             images[i].originY = 0;
+            Phaser.Display.Align.In.Center(frames, container);
         }
-        /*
-        var matrix = [
-            [ 1, 1, 1, 1 ],
-            [ 2, 2, 2, 2 ],
-            [ 3, 3, 3, 3 ],
-            [ 4, 4, 4, 4 ],
-        ];
         */
     }
-    
-    update(delta) {
-        
+
+    clickHandler(spinBtn) {
+        spinBtn.setAlpha(0.5);
+    }
+
+    update(e) {
+
     }
 }
+
+
