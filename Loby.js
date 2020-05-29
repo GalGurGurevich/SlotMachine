@@ -25,6 +25,9 @@ class Loby extends Phaser.Scene {
         this.soundFX = this.sound.add("bg_music", { loop: "true" });
         this.soundFX.play();
 
+        this.timeSinceLastIncrement = 0;
+        this.hitSpinBtn = false;
+
         //Welcome Text
         this.text = this.add.text(150, 0, "Welcome to the (slot) Machine!", {font: "5em Impact", color: "Blue"});
 
@@ -44,7 +47,7 @@ class Loby extends Phaser.Scene {
         }, this);
 
         var container = this.add.image(0, 0, 'slotContainer');
-        var spinBtn = this.add.image(500, 800, 'button_spin');
+        this.spinBtn = this.add.image(500, 800, 'button_spin');
 
         Phaser.Display.Align.In.Center(container, this.add.zone(500, 500, 1000, 1000));
 
@@ -53,9 +56,13 @@ class Loby extends Phaser.Scene {
             this.barGroup.add(bar);
         }
 
-        spinBtn.setInteractive();
+        //var bmd = this.make.bitmapData(500, 500);
+        //bmd.alphaMask('potionsY', 'slotContainer');
+        //this.add.image(260, 320, bmd).anchor.set(0.5, 0);
 
-        spinBtn.on('clicked', this.clickHandler, this);
+        this.spinBtn.setInteractive();
+        
+        this.spinBtn.on('clicked', this.clickHandler, this);
 
         this.input.on('gameobjectup', function (pointer, gameObject)
         {
@@ -63,17 +70,25 @@ class Loby extends Phaser.Scene {
         }, this);
 
     }
-
-    clickHandler(spinBtn) {
-        spinBtn.setAlpha(0.5);
-    }
+    clickHandler() {
+        this.disableSpinButton();
+        this.time.delayedCall(1000, this.enableSpinButton, null, this);
+      }
+      disableSpinButton() {
+        this.spinBtn.setAlpha(0.5);
+        this.spinBtn.inputEnabled = false;
+      }
+      enableSpinButton() {
+        this.spinBtn.setAlpha(1);
+        this.spinBtn.inputEnabled = true;
+      }
 
     spin() {
 
     }
 
     update(e) {
-
+        
     }
 }
 
