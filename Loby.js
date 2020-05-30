@@ -56,10 +56,6 @@ class Loby extends Phaser.Scene {
             this.barGroup.add(bar);
         }
 
-        //var bmd = this.make.bitmapData(500, 500);
-        //bmd.alphaMask('potionsY', 'slotContainer');
-        //this.add.image(260, 320, bmd).anchor.set(0.5, 0);
-
         this.spinBtn.setInteractive();
         
         this.spinBtn.on('clicked', this.clickHandler, this);
@@ -69,7 +65,16 @@ class Loby extends Phaser.Scene {
             gameObject.emit('clicked', gameObject);
         }, this);
 
+        var mask = this.add.graphics()
+	                    .setVisible(false)
+	                    .fillStyle(0xFFFFFF)
+	                    .fillRect(0, 570, 1000, 300)
+                        .createGeometryMask();
+                        
+        this.barGroup.getChildren().forEach(obj => obj.setMask(mask));
+
     }
+
     clickHandler() {
         this.disableSpinButton();
         this.time.delayedCall(1000, this.enableSpinButton, null, this);
@@ -77,15 +82,12 @@ class Loby extends Phaser.Scene {
       disableSpinButton() {
         this.spinBtn.setAlpha(0.5);
         this.spinBtn.inputEnabled = false;
+        this.spinBtn.setAlpha(0.5);
       }
       enableSpinButton() {
         this.spinBtn.setAlpha(1);
         this.spinBtn.inputEnabled = true;
       }
-
-    spin() {
-
-    }
 
     update(e) {
         
