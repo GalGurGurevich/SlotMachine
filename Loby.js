@@ -8,8 +8,7 @@ class Loby extends Phaser.Scene {
         this.load.image('potion2', 'assets/potion2.png');
         this.load.image('potion3', 'assets/potion3.png');
         this.load.image('potion4', 'assets/potion4.png');
-        this.load.image('potions', 'assets/potions.png');
-        this.load.image('potionsY', 'assets/potionsY.png');
+        this.load.image('potions', 'assets/potionsY.png');
         this.load.image('button_spin', 'assets/button_spin.png');
         this.load.image('button_stop', 'assets/button_stop.png');
         this.load.image('slotContainer', 'assets/slotContainer.png');
@@ -45,13 +44,18 @@ class Loby extends Phaser.Scene {
             }
         }, this);
 
+        //set container, img as buttons
         var container = this.add.image(0, 0, 'slotContainer');
-        this.spinBtn = this.add.image(500, 800, 'button_spin');
+        this.spinBtn = this.add.image(600, 800, 'button_spin');
+        this.stopBtn = this.add.image(430, 800, 'button_stop');
+        this.stopBtn.setVisible(false);
 
+        //center container
         Phaser.Display.Align.In.Center(container, this.add.zone(500, 500, 1000, 1000));
 
+        //add potions as group and position them
         for (var i = 0; i < 4; i++) {
-            var bar = this.add.sprite(260 + i * 170, 400, "potionsY");
+            var bar = this.add.sprite(260 + i * 170, 400, "potions");
             this.barGroup.push(bar);
         }
 
@@ -59,11 +63,13 @@ class Loby extends Phaser.Scene {
         
         this.spinBtn.on('clicked', this.clickHandler, this);
 
+        //enable click events on objects
         this.input.on('gameobjectup', function (pointer, gameObject)
         {
             gameObject.emit('clicked', gameObject);
         }, this);
 
+        //hide part of potions to fit content of container
         var mask = this.add.graphics()
 	                    .setVisible(false)
 	                    .fillStyle(0xFFFFFF)
@@ -89,6 +95,7 @@ class Loby extends Phaser.Scene {
         this.disableSpinButton();
         this.spinning = true;
         this.time.delayedCall(1000, this.enableSpinButton, null, this);
+        this.stopBtn.setVisible(true);
       }
       disableSpinButton() {
         this.spinBtn.setAlpha(0.5);
@@ -98,6 +105,7 @@ class Loby extends Phaser.Scene {
       enableSpinButton() {
         this.spinBtn.setAlpha(1);
         this.spinBtn.inputEnabled = true;
+        this.stopBtn.setVisible(false);
       }
 
     startSpin() {
@@ -132,7 +140,7 @@ class Loby extends Phaser.Scene {
 
     update(e) {
         if(this.spinning == true) {
-            
+
         }
     }
 }
