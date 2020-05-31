@@ -18,14 +18,13 @@ class Loby extends Phaser.Scene {
     }
     create() {
 
-        this.barGroup = this.add.group();
+        this.barGroup = []
         this.graphics = this.add.graphics();
 
         //Background Music
         this.soundFX = this.sound.add("bg_music", { loop: "true" });
         this.soundFX.play();
 
-        this.timeSinceLastIncrement = 0;
         this.hitSpinBtn = false;
 
         //Welcome Text
@@ -53,7 +52,7 @@ class Loby extends Phaser.Scene {
 
         for (var i = 0; i < 4; i++) {
             var bar = this.add.sprite(260 + i * 170, 400, "potionsY");
-            this.barGroup.add(bar);
+            this.barGroup.push(bar);
         }
 
         this.spinBtn.setInteractive();
@@ -68,15 +67,27 @@ class Loby extends Phaser.Scene {
         var mask = this.add.graphics()
 	                    .setVisible(false)
 	                    .fillStyle(0xFFFFFF)
-	                    .fillRect(0, 570, 1000, 300)
+	                    .fillRect(0, 530, 1000, 200)
                         .createGeometryMask();
                         
-        this.barGroup.getChildren().forEach(obj => obj.setMask(mask));
+        this.barGroup.forEach(obj => obj.setMask(mask));
+
+        this.spinBtn.on('clicked', this.startSpin, this);
+
+        this.tweens.add({
+            targets: this.barGroup,
+            y: 900,
+            duration: 2000,
+            ease: "Power2",
+            yoyo: true,
+            loop: -1
+        });
 
     }
 
     clickHandler() {
         this.disableSpinButton();
+        this.spinning = true;
         this.time.delayedCall(1000, this.enableSpinButton, null, this);
       }
       disableSpinButton() {
@@ -89,8 +100,40 @@ class Loby extends Phaser.Scene {
         this.spinBtn.inputEnabled = true;
       }
 
+    startSpin() {
+            var tween = this.tweens.add({
+                targets: this.barGroup,
+                y:500,
+                duration: 3000,
+                ease:"Elastic",
+                easeParams: [1.5, 0.5],
+                delay: 100,
+                onComplete: function(src, tgt) {
+                    tgt[0].y = Phaser.Math.RND.integerInRange(500,1600);
+                    }
+                }, this); 
+    }
+
+    setStop() {
+       
+    }
+
+    spin() {
+
+    }
+
+    finalSpin() {
+    
+    }
+
+    checkFinished() {
+
+    }
+
     update(e) {
-        
+        if(this.spinning == true) {
+            
+        }
     }
 }
 
