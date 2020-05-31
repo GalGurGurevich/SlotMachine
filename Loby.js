@@ -82,7 +82,7 @@ class Loby extends Phaser.Scene {
 
         this.tweens.add({
             targets: this.barGroup,
-            y: 900,
+            y: 800,
             duration: 2000,
             ease: "Power2",
             yoyo: true,
@@ -109,17 +109,17 @@ class Loby extends Phaser.Scene {
       }
 
     startSpin() {
-            var tween = this.tweens.add({
-                targets: this.barGroup,
-                y:500,
-                duration: 3000,
-                ease:"Elastic",
-                easeParams: [1.5, 0.5],
-                delay: 100,
-                onComplete: function(src, tgt) {
-                    tgt[0].y = Phaser.Math.RND.integerInRange(500,1600);
-                    }
-                }, this); 
+            for(let i = 0; i < this.barGroup.length; i++) {
+                this.tweens.add({
+                    targets: this.barGroup[i],
+                    y: 750,
+                    x: 270 + (170 * i),
+                    duration: 100,
+                    ease: "Bounce.easeIn",
+                    yoyo: true,
+                    loop: 10
+                });
+            }
     }
 
     setStop() {
@@ -140,7 +140,7 @@ class Loby extends Phaser.Scene {
 
     update(e) {
         if(this.spinning == true) {
-
+            
         }
     }
 }
