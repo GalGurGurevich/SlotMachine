@@ -98,7 +98,6 @@ class Loby extends Phaser.Scene {
         this.time.delayedCall(1000, this.enableSpinButton, null, this);
         this.stopBtn.setVisible(true);
         this.spinSoundFx.play();
-        this.soundFX.stop();
       }
       disableSpinButton() {
         this.spinBtn.setAlpha(0.5);
@@ -109,7 +108,6 @@ class Loby extends Phaser.Scene {
         this.spinBtn.setAlpha(1);
         this.spinBtn.inputEnabled = true;
         this.stopBtn.setVisible(false);
-        this.soundFX.play();
         this.spinSoundFx.stop();
       }
 
