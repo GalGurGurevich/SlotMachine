@@ -17,7 +17,7 @@ class Loby extends Phaser.Scene {
     }
     create() {
 
-        this.barGroup = []
+        this.barGroup = [];
         this.graphics = this.add.graphics();
 
         //Background Music
@@ -73,7 +73,7 @@ class Loby extends Phaser.Scene {
         var mask = this.add.graphics()
 	                    .setVisible(false)
 	                    .fillStyle(0xFFFFFF)
-	                    .fillRect(0, 530, 1000, 200)
+	                    .fillRect(100, 330, 1000, 400)
                         .createGeometryMask();
                         
         this.barGroup.forEach(obj => obj.setMask(mask));
@@ -82,7 +82,7 @@ class Loby extends Phaser.Scene {
 
         this.tweens.add({
             targets: this.barGroup,
-            y: 800,
+            y: 500,
             duration: 2000,
             ease: "Power2",
             yoyo: true,
@@ -140,7 +140,7 @@ class Loby extends Phaser.Scene {
 
     update(e) {
         if(this.spinning == true) {
-            
+
         }
     }
 }
