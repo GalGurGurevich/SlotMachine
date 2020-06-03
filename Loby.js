@@ -22,6 +22,7 @@ class Loby extends Phaser.Scene {
 
         //Background Music
         this.soundFX = this.sound.add("bg_music", { loop: "true" });
+        this.spinSoundFx = this.sound.add("spin", {loop: "false"}); 
         this.soundFX.play();
 
         this.hitSpinBtn = false;
@@ -82,7 +83,7 @@ class Loby extends Phaser.Scene {
 
         this.tweens.add({
             targets: this.barGroup,
-            y: 500,
+            y: 550,
             duration: 2000,
             ease: "Power2",
             yoyo: true,
@@ -96,6 +97,8 @@ class Loby extends Phaser.Scene {
         this.spinning = true;
         this.time.delayedCall(1000, this.enableSpinButton, null, this);
         this.stopBtn.setVisible(true);
+        this.spinSoundFx.play();
+        this.soundFX.stop();
       }
       disableSpinButton() {
         this.spinBtn.setAlpha(0.5);
@@ -106,6 +109,8 @@ class Loby extends Phaser.Scene {
         this.spinBtn.setAlpha(1);
         this.spinBtn.inputEnabled = true;
         this.stopBtn.setVisible(false);
+        this.soundFX.play();
+        this.spinSoundFx.stop();
       }
 
     startSpin() {
